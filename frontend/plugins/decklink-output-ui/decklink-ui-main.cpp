@@ -443,8 +443,11 @@ static void OBSEvent(enum obs_frontend_event event, void *)
 
 		OBSData previewSettings = load_preview_settings();
 
-		if (previewSettings && obs_data_get_bool(previewSettings, "auto_start"))
+		if (previewSettings && obs_data_get_bool(previewSettings, "auto_start")) {
 			preview_output_start();
+			preview_output_stop();
+			preview_output_start();
+		}
 	} else if (event == OBS_FRONTEND_EVENT_EXIT) {
 		shutting_down = true;
 
