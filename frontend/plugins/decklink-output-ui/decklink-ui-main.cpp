@@ -435,8 +435,11 @@ static void OBSEvent(enum obs_frontend_event event, void *)
 	if (event == OBS_FRONTEND_EVENT_FINISHED_LOADING) {
 		OBSData settings = load_settings();
 
-		if (settings && obs_data_get_bool(settings, "auto_start"))
+		if (settings && obs_data_get_bool(settings, "auto_start")) {
 			output_start();
+			output_stop();
+			output_start();
+		}
 
 		OBSData previewSettings = load_preview_settings();
 
