@@ -436,17 +436,23 @@ static void OBSEvent(enum obs_frontend_event event, void *)
 		OBSData settings = load_settings();
 
 		if (settings && obs_data_get_bool(settings, "auto_start")) {
+			bool already_started = main_output_running;
 			output_start();
-			output_stop();
-			output_start();
+			if (!already_started) {
+				output_stop();
+				output_start();
+			}
 		}
 
 		OBSData previewSettings = load_preview_settings();
 
 		if (previewSettings && obs_data_get_bool(previewSettings, "auto_start")) {
+			bool already_started = preview_output_running;
 			preview_output_start();
-			preview_output_stop();
-			preview_output_start();
+			if (!already_started) {
+				preview_output_stop();
+				preview_output_start();
+			}	
 		}
 	} else if (event == OBS_FRONTEND_EVENT_EXIT) {
 		shutting_down = true;
